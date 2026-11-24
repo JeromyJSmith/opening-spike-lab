@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Opening Spike Lab · Notebook Hub</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* Dark notebook hub: grouped notebook cards in reading order. Each card offers the interactive version first. */
+:root {
+  --bg: #0f1513; --panel: #161f1c; --panel2: #1b2622; --ink: #e5ece8; --muted: #9aaba4; --line: #2a3631;
+  --accent: #5cc2a2; --run: #ef7b66; --warn: #e3a948;
+  --display: "Fraunces", Georgia, serif; --body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.6 var(--body) }
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 max(16px, env(safe-area-inset-right, 0px)) 4rem max(16px, env(safe-area-inset-left, 0px)) }
+header { padding-block: 3rem 2rem; display: grid; gap: 1rem; border-bottom: 1px solid var(--line) }
+h1 { font: 600 clamp(2rem, 5vw, 3.1rem)/1.05 var(--display); margin: 0; text-wrap: balance }
+h3 { font-size: 1.05rem; margin: 0 }
+p { margin: 0 }
+a { color: var(--accent); text-underline-offset: 3px }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px }
+.eyebrow { font: 500 .74rem/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted) }
+.lede { color: var(--muted); max-width: 70ch; font-size: 1.08rem }
+.tags { display: flex; gap: .5rem; flex-wrap: wrap }
+.tag { font: 500 .72rem/1 var(--mono); padding: .32rem .55rem; border: 1px solid var(--line); border-radius: 999px; color: var(--muted) }
+section { padding-block: 2.2rem 0; display: grid; gap: 1rem }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1rem }
+.card { display: grid; gap: .6rem; align-content: start; padding: 1.1rem 1.15rem; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; min-width: 0 }
+.card:hover { border-color: #3a4a44 }
+.card .top { display: flex; justify-content: space-between; gap: .6rem; align-items: baseline }
+.card p { font-size: .93rem; color: var(--muted) }
+.num { font: 500 .8rem var(--mono); color: var(--accent) }
+.links { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: .2rem }
+.links a { font: 500 .8rem var(--mono); padding: .35rem .65rem; border-radius: 999px; text-decoration: none; border: 1px solid var(--line); color: var(--ink) }
+.links a.go { border-color: var(--accent); color: var(--accent) }
+.links a:hover { background: var(--panel2) }
+.note { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 1rem 1.15rem; display: grid; gap: .5rem; font-size: .93rem; color: var(--muted) }
+.note b { color: var(--ink) }
+footer { margin-top: 3rem; padding-top: 1.4rem; border-top: 1px solid var(--line); color: var(--muted); font-size: .85rem; display: grid; gap: .35rem }
+code { font-family: var(--mono); font-size: .85em; color: var(--ink) }
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">Spike-short research group · notebook hub · 24 Nov 2026</div>
+  <h1>Opening Spike Lab</h1>
+  <p class="lede">Every notebook from the spike-short research, in reading order. Each one is an analytics tool as well as a write-up: select points on a chart, drag sliders, search tables, and the numbers recompute. Every notebook has <b>Back to hub</b> and <b>Next notebook</b> buttons at the top.</p>
+  <div class="tags"><span class="tag">paper research only</span><span class="tag">no orders placed</span><span class="tag">Alpaca SIP 1-min bars · May 2025 – Nov 2026</span></div>
+</header>
+
+<div class="note" style="margin-top:1.6rem">
+  <p><b>Three ways to open a notebook.</b> <b>Open</b> is a fast page with every chart and table computed from our data. <b>In your browser</b> runs the whole notebook inside the page with no server, so every control and selection recomputes (first load takes about 30 seconds). <b>Open in molab</b> opens the notebook source in your own marimo account, where you can fork it, run it and change it.</p>
+</div>
+
+<section>
+  <div class="eyebrow">Start here</div>
+  <div class="grid">
+    <div class="card"><div class="top"><h3>Brainstorm board</h3><span class="num">01</span></div><p>What we found, ideas with worked examples, the worst trades on TradingView candles, and the Jev sites full size.</p>
+      <div class="links"><a class="go" href="notebooks/brainstorm_board.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/brainstorm_board.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+    <div class="card"><div class="top"><h3>Collaboration board</h3><span class="num">02</span></div><p>Why we're building this, results so far, the idea board you can filter, and the first gap map.</p>
+      <div class="links"><a class="go" href="notebooks/collab_ideas.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/collab_ideas.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+    <div class="card"><div class="top"><h3>Results deck</h3><span class="num">03</span></div><p>The slide version. Use the arrows at the bottom right to page through.</p>
+      <div class="links"><a class="go" href="notebooks/results_deck.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/results_deck.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">News, models and decisions</div>
+  <div class="grid">
+    <div class="card"><div class="top"><h3>News and gap analysis</h3><span class="num">04</span></div><p>Two InfraNodus graphs (news before every trade, strategy gaps), answers from the graphs, and the headline-by-outcome analysis: click a news type, lasso trades, search headlines.</p>
+      <div class="links"><a class="go" href="live/news_gap_lab/">In your browser</a><a href="notebooks/news_gap_lab.html">Snapshot</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/news_gap_lab.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+    <div class="card"><div class="top"><h3>Model profiles</h3><span class="num">05</span></div><p>What each model is good at, plus a veto lab: pick a risk score, drag the veto %, brush the scatter and the parallel-coordinates filter, and watch profit factor change.</p>
+      <div class="links"><a class="go" href="live/model_profiles/">In your browser</a><a href="notebooks/model_profiles.html">Snapshot</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/model_profiles.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+    <div class="card"><div class="top"><h3>Jev lab</h3><span class="num">06</span></div><p>How a Jev decision flows, 466 recorded real-data scenarios, and where Jev fits from pre-open to review.</p>
+      <div class="links"><a class="go" href="notebooks/jev_lab.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/jev_lab.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+    <div class="card"><div class="top"><h3>Model lab</h3><span class="num">07</span></div><p>The full comparison: out-of-fold scores, calibration, veto thresholds, votes, stacks and holdout results.</p>
+      <div class="links"><a class="go" href="notebooks/model_lab.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/model_lab.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Under the hood</div>
+  <div class="grid">
+    <div class="card"><div class="top"><h3>Spike Short Lab</h3><span class="num">08</span></div><p>The engine: universe, rule traces for every decision, tail-loser anatomy, filter ablations, PyBroker parity.</p>
+      <div class="links"><a class="go" href="notebooks/spike_short_dashboard.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/spike_short_dashboard.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+    <div class="card"><div class="top"><h3>Continuation-loser detector</h3><span class="num">09</span></div><p>Can anything known at entry spot the shorts that keep running?</p>
+      <div class="links"><a class="go" href="notebooks/continuation_loser_detector.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/continuation_loser_detector.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+    <div class="card"><div class="top"><h3>Trade replay</h3><span class="num">10</span></div><p>One trade, bar by bar, on TradingView-style candles, with each risk model's view at the arm.</p>
+      <div class="links"><a class="go" href="notebooks/trade_replay.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/trade_replay.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+    <div class="card"><div class="top"><h3>Trading workbench (Nov 14)</h3><span class="num">11</span></div><p>The first version: 5% spike short, an opening-range baseline, and a Kronos inspector.</p>
+      <div class="links"><a class="go" href="notebooks/trading_workbench.html">Open</a><a href="https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/trading_workbench.py" target="_blank" rel="noopener">Open in molab ↗</a></div></div>
+  </div>
+</section>
+
+<section>
+  <div class="eyebrow">Related</div>
+  <div class="grid">
+    <div class="card"><div class="top"><h3>InfraNodus graphs</h3><span class="num">↗</span></div><p>Explore and query the two graphs directly.</p>
+      <div class="links"><a class="go" href="https://infranodus.com/ojeromyo/spike-short-news-semantic" target="_blank" rel="noopener">News graph</a><a class="go" href="https://infranodus.com/ojeromyo/spike-short-strategy-gaps" target="_blank" rel="noopener">Gap graph</a></div></div>
+    <div class="card"><div class="top"><h3>Jev sites</h3><span class="num">↗</span></div><p>13 levels of Jev decisions on real inputs, and the First-Hour Desk demo.</p>
+      <div class="links"><a class="go" href="https://jeromyjsmith.github.io/jev-trading-lab/" target="_blank" rel="noopener">Jev Trading Lab</a><a href="https://jeromyjsmith.github.io/jev-first-hour-desk/" target="_blank" rel="noopener">First-Hour Desk</a></div></div>
+  </div>
+</section>
+
+<footer>
+  <span>Paper research only. Nothing here places orders or is investment advice. Returns are per-trade basis points at equal size, no borrow cost.</span>
+  <span>Built with marimo. Rebuild with <code>bash scripts/build_hub.sh</code>.</span>
+</footer>
+</div>
+</body>
+</html>

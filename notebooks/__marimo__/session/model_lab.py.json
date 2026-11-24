@@ -1,0 +1,295 @@
+{
+  "version": "1",
+  "metadata": {
+    "marimo_version": "0.25.2",
+    "script_metadata_hash": "f83723d77a3587ba9013beb2ada86494"
+  },
+  "cells": [
+    {
+      "id": "setup",
+      "code_hash": "25e5f49f886ef53399edea8d33074ad0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><marimo-ui-element object-id='setup-0' random-id='9ed1384f-a60d-0f1a-22e6-57e2f8fa96de'><marimo-anywidget data-initial-value='{&quot;model_id&quot;:&quot;b89fd080207f4d868989a2f6715133ef&quot;}' data-label='null' data-model-id='&quot;b89fd080207f4d868989a2f6715133ef&quot;'></marimo-anywidget></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hbol",
+      "code_hash": "a925cdd0f6b88504322a4bca5e7e3cd0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style=\"display:flex;gap:.6rem;justify-content:space-between;align-items:center;flex-wrap:wrap\"><a href=\"https://jeromyjsmith.github.io/opening-spike-lab/\" target=\"_top\" style=\"display:inline-block;padding:.45rem .9rem;border:1px solid #2a3631;border-radius:999px;color:#e5ece8;text-decoration:none;font:500 14px system-ui;background:#161f1c\">\u2190 Back to hub</a><span style=\"color:#9aaba4;font:13px system-ui\">Notebook 7 of 11</span><a href=\"https://molab.marimo.io/github/JeromyJSmith/opening-spike-lab/blob/main/notebooks/model_lab.py\" target=\"_blank\" rel=\"noopener\" style=\"display:inline-block;padding:.45rem .9rem;border:1px solid #2a3631;border-radius:999px;color:#e5ece8;text-decoration:none;font:500 14px system-ui;background:#161f1c;border-color:#e3a948;color:#e3a948\">Open in molab \u2197</a><a href=\"https://jeromyjsmith.github.io/opening-spike-lab/notebooks/spike_short_dashboard.html\" target=\"_top\" style=\"display:inline-block;padding:.45rem .9rem;border:1px solid #2a3631;border-radius:999px;color:#e5ece8;text-decoration:none;font:500 14px system-ui;background:#161f1c;border-color:#5cc2a2;color:#5cc2a2\">Next notebook \u2192</a></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "MJUe",
+      "code_hash": "8ac0f8716137c1d3497fbf0d18cc39eb",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h1 id=\"spike-short-model-lab\">Spike Short Model Lab</h1>\n<span class=\"paragraph\">Which trades will be <strong>continuation losers</strong> (net <marimo-tex class=\"arithmatex\">||(\\le -200||)</marimo-tex> bps)? About 15% of baseline trades lose that much and\nthey make up 60\u201368% of all losing bps. Each model below scores <marimo-tex class=\"arithmatex\">||(P(\\text{tail loser})||)</marimo-tex> for a trade from facts known\nwhen the short would be placed (the arm bar has closed, entry is the next open), and a trade is skipped when the\nscore crosses a threshold.</span>\n<span class=\"paragraph\"><strong>Protocol.</strong> Models, calibration and thresholds are all set on <strong>Jul 2025 \u2013 Jun 2026</strong> using out-of-fold scores\n(blocked time folds with a 5-day purge). <strong>Q3 2026</strong> and <strong>Oct \u2013 Nov 2026</strong> are scored once with everything frozen.\nThe tune row in the tables is out-of-fold, so it is a fair estimate too. Targets: win rate 60\u201370%, profit factor <marimo-tex class=\"arithmatex\">||(\\ge 1.5||)</marimo-tex>.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "vblA",
+      "code_hash": "b4d8359376463ab6cebe8d77bf73f2c3",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\">Alpaca SIP bars 2025-05-01 to 2026-11-23: 2,530,420 one-minute morning bars, SPY/QQQ benchmarks loaded.</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "bkHC",
+      "code_hash": "709d4f4ae0d0596b77d36bcc605e4946",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"strategy-and-training-data\">Strategy and training data</h3></span><div style='display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 2rem'><marimo-ui-element object-id='bkHC-0' random-id='d5b5e367-7619-e685-1d47-0876b75f00a6'><marimo-dropdown data-initial-value='[&quot;5%&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eStrategy run-up&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;4%&quot;,&quot;5%&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false' data-disabled='false'></marimo-dropdown></marimo-ui-element><marimo-ui-element object-id='bkHC-1' random-id='3ed13c20-6a28-3e42-0186-213d0b7f1d06'><marimo-dropdown data-initial-value='[&quot;&#36;50&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eMin price&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;&#36;25&quot;,&quot;&#36;50&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false' data-disabled='false'></marimo-dropdown></marimo-ui-element><marimo-ui-element object-id='bkHC-2' random-id='a7b5d95e-8b00-8aa7-0812-d0acce829ec7'><marimo-multiselect data-initial-value='[&quot;100M-1B&quot;,&quot;1B+&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eADDV tiers&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;100M-1B&quot;,&quot;1B+&quot;]' data-full-width='false' data-disabled='false'></marimo-multiselect></marimo-ui-element><marimo-ui-element object-id='bkHC-3' random-id='0e8c20fd-bf16-2789-579b-78482aa6eacc'><marimo-slider data-initial-value='20' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eCover after (min)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='5' data-stop='40' data-step='1' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 2rem'><marimo-ui-element object-id='bkHC-4' random-id='ee03ff13-8994-0cbe-53e4-750850a15f8b'><marimo-multiselect data-initial-value='[&quot;4%&quot;,&quot;5%&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eTrain on run-ups&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;4%&quot;,&quot;5%&quot;]' data-full-width='false' data-disabled='false'></marimo-multiselect></marimo-ui-element><marimo-ui-element object-id='bkHC-5' random-id='d596d337-26b7-c4f3-dc9c-f6f6159654bb'><marimo-multiselect data-initial-value='[&quot;&#36;25&quot;,&quot;&#36;50&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eTrain on price floors&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;&#36;25&quot;,&quot;&#36;50&quot;]' data-full-width='false' data-disabled='false'></marimo-multiselect></marimo-ui-element><marimo-ui-element object-id='bkHC-6' random-id='c4e685f7-3a1d-e10c-9baa-4d85b2eea21a'><marimo-multiselect data-initial-value='[&quot;engine (arm bar)&quot;,&quot;path (pre-entry bars)&quot;,&quot;daily context&quot;,&quot;market (SPY/QQQ)&quot;,&quot;time and crowding&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eFeature groups&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;engine (arm bar)&quot;,&quot;path (pre-entry bars)&quot;,&quot;daily context&quot;,&quot;market (SPY/QQQ)&quot;,&quot;time and crowding&quot;,&quot;forecast (Chronos/Kronos)&quot;]' data-full-width='false' data-disabled='false'></marimo-multiselect></marimo-ui-element></div><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>Training pools trades from several run-up and price variants of the same rule (more labelled tail losers, ~180 instead of 55). Evaluation always uses the strategy trades above.</em></span></span></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "lEQa",
+      "code_hash": "0371a47c4fe3310ac6999e3005dfdec8",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><strong>Training pool:</strong> 1235 tune trades, 179 tail losers. <strong>Strategy:</strong> tune 368 (55 tail), validate (Q3 26) 136 (25 tail), forward (Oct-Nov 26) 71 (11 tail)</span></span>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "PKri",
+      "code_hash": "05902547dfe3acb0778b87dea5a3d905",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h3 id=\"models-and-combination\">Models and combination</h3></span><div style='display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 2rem'><marimo-ui-element object-id='PKri-0' random-id='b593ba30-7615-2514-427f-236661525fe7'><marimo-multiselect data-initial-value='[&quot;LightGBM&quot;,&quot;CatBoost&quot;,&quot;TabPFN v2&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eModels (order = sequential order)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;LightGBM&quot;,&quot;CatBoost&quot;,&quot;TabPFN v2&quot;,&quot;Logistic (L2)&quot;,&quot;Decision tree (depth 3)&quot;,&quot;Rule: fast run-up (minutes_to_trigger)&quot;,&quot;Chronos-Bolt: q90 path max&quot;,&quot;Kronos: q90 path max&quot;,&quot;Kronos: P(path reaches +200 bps)&quot;]' data-full-width='false' data-disabled='false'></marimo-multiselect></marimo-ui-element><marimo-ui-element object-id='PKri-1' random-id='ad4f41ec-2616-678b-afd7-adc6d7d9a11e'><marimo-dropdown data-initial-value='[&quot;Platt (logistic)&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eCalibration&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;Platt (logistic)&quot;,&quot;Isotonic&quot;,&quot;None&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false' data-disabled='false'></marimo-dropdown></marimo-ui-element></div><div style='display: flex;flex: 1;flex-direction: row;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 2rem'><marimo-ui-element object-id='PKri-2' random-id='bdb2c0f5-088a-7ddf-d18a-8ffb243ca9db'><marimo-dropdown data-initial-value='[&quot;Veto riskiest share of tune trades&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eThreshold rule&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;Veto riskiest share of tune trades&quot;,&quot;Veto if P(tail) \u2265&quot;,&quot;Best tune profit factor&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false' data-disabled='false'></marimo-dropdown></marimo-ui-element><marimo-ui-element object-id='PKri-3' random-id='3593317f-3f92-e272-a481-613052ef8f95'><marimo-slider data-initial-value='0.2' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eVeto share / probability&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='0.05' data-stop='0.6' data-step='0.01' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='PKri-4' random-id='0b41f818-2d28-7fa9-7c15-656106e73c3c'><marimo-dropdown data-initial-value='[&quot;Vote k-of-n&quot;]' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eCombine&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-options='[&quot;Single models only&quot;,&quot;Vote k-of-n&quot;,&quot;Mean probability&quot;,&quot;Stack (logistic on model scores)&quot;,&quot;Sequential gates&quot;]' data-allow-select-none='false' data-searchable='false' data-full-width='false' data-disabled='false'></marimo-dropdown></marimo-ui-element><marimo-ui-element object-id='PKri-5' random-id='768e86f0-388b-f831-ca0a-d3f596bc57ae'><marimo-slider data-initial-value='2' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003ek (vote)&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-start='1' data-stop='6' data-steps='[]' data-debounce='false' data-disabled='false' data-orientation='&quot;horizontal&quot;' data-show-value='true' data-include-input='false' data-full-width='false'></marimo-slider></marimo-ui-element><marimo-ui-element object-id='PKri-6' random-id='8b53a985-1306-1e60-767e-3f194a18c3ce'><marimo-button data-initial-value='0' data-label='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003eFit models&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;neutral&quot;' data-disabled='false' data-full-width='false'></marimo-button></marimo-ui-element></div><span class=\"markdown prose dark:prose-invert contents\"><span class=\"paragraph\"><em>TabPFN runs in a separate worker process (its torch runtime crashes LightGBM in one process on macOS); the first TabPFN fit takes about a minute. Fits are cached, so changing thresholds or the combination is instant.</em></span></span></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Xref",
+      "code_hash": "2c4db1306b0b8df55310490e18e84eed",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<marimo-callout-output data-html='&quot;&#92;u003cspan class=&#92;&quot;markdown prose dark:prose-invert contents&#92;&quot;&#92;u003e&#92;u003cspan class=&#92;&quot;paragraph&#92;&quot;&#92;u003ePress &#92;u003cstrong&#92;u003eFit models&#92;u003c/strong&#92;u003e to fit: LightGBM, CatBoost, TabPFN v2.&#92;u003c/span&#92;u003e&#92;u003c/span&#92;u003e&quot;' data-kind='&quot;info&quot;'></marimo-callout-output>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "SFPL",
+      "code_hash": "3bbd15f7e8769acf67238de032150b6a",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "BYtC",
+      "code_hash": "f0bdab77ce0afa27a6f12ab95b55e87f",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "RGSE",
+      "code_hash": "683f6d6dc276f6183e6a78e8638444d6",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Kclp",
+      "code_hash": "379c9e5931fe02a56a6dab5bb08db823",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "emfo",
+      "code_hash": "fae6eb5e323cc1400fec2b8ea5214642",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Hstk",
+      "code_hash": "bf041458b38296258f1db08653087d7d",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "nWHF",
+      "code_hash": "e0eccfa6b0b7022910a1ac3f3fdb357d",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "iLit",
+      "code_hash": "24c82ce8db01c8f0c33699fc40657649",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ZHCJ",
+      "code_hash": "b4df901c78c7dbe042e6ab1e70130fd7",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "ROlb",
+      "code_hash": "50030a176bdf30c5dd45d43d36ed9c34",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "qnkX",
+      "code_hash": "aa11e4a29aac06e9874ba4e2299eea2b",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "TqIu",
+      "code_hash": "0842e315c8921cdf88773ce6d548688f",
+      "outputs": [
+        {
+          "type": "error",
+          "ename": "ancestor-stopped",
+          "evalue": "This cell wasn't run because an ancestor was stopped with `mo.stop`: ",
+          "traceback": []
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "Vxnm",
+      "code_hash": "f4bd4827fb37d9bbbb0bad9f6aec20cc",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/html": "<div style='display: flex;flex: 1;flex-direction: column;justify-content: flex-start;align-items: normal;flex-wrap: nowrap;gap: 0.5rem'><span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"layer-2-forecast-upper-tail-chronos-bolt-kronos\">Layer 2: forecast upper tail (Chronos-Bolt, Kronos)</h2>\n<span class=\"paragraph\">Both models forecast the 20 minutes after entry from the pre-entry 1-minute window (09:30 to the arm bar; 2\u201345 bars, no pre-market in the cached data). Higher values mean the forecast sees more room to run up. <code>auc_vs_tail</code> is the raw ranking power of each statistic, no fitting (0.5 = none). Forecasts are cached by <code>scripts/precompute_forecasts.py</code>; coverage below 100% means it has not finished. Use them as single-score models (model list) or add the forecast feature group to the tabular models.</span></span><marimo-ui-element object-id='Vxnm-0' random-id='deb31e7d-b55d-dbb9-13d3-fba3129399c3'><marimo-table data-initial-value='[]' data-label='null' data-data='&quot;[{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_q90_max_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;tune (OOF)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.677,&#92;&quot;tail_median&#92;&quot;:648.7819779651405,&#92;&quot;others_median&#92;&quot;:385.0492305709197},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_q50_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;tune (OOF)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.524,&#92;&quot;tail_median&#92;&quot;:-69.27389847604881,&#92;&quot;others_median&#92;&quot;:-69.05361228123463},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_p_up_tail&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;tune (OOF)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.646,&#92;&quot;tail_median&#92;&quot;:0.2222222222222222,&#92;&quot;others_median&#92;&quot;:0.1111111111111111},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_mean_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;tune (OOF)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.581,&#92;&quot;tail_median&#92;&quot;:-50.120994142428785,&#92;&quot;others_median&#92;&quot;:-58.99557355975508},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_q90_max_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;tune (OOF)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.622,&#92;&quot;tail_median&#92;&quot;:151.42089580150952,&#92;&quot;others_median&#92;&quot;:119.58582018827157},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_q50_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;tune (OOF)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.582,&#92;&quot;tail_median&#92;&quot;:-47.888636221366525,&#92;&quot;others_median&#92;&quot;:-64.80250782498365},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_p_up_tail&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;tune (OOF)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.602,&#92;&quot;tail_median&#92;&quot;:0.0625,&#92;&quot;others_median&#92;&quot;:0.0},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_mean_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;tune (OOF)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.598,&#92;&quot;tail_median&#92;&quot;:-45.85736236224318,&#92;&quot;others_median&#92;&quot;:-69.81064542000973},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_q90_max_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;validate (Q3 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.609,&#92;&quot;tail_median&#92;&quot;:516.4105329486923,&#92;&quot;others_median&#92;&quot;:401.4335785537959},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_q50_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;validate (Q3 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.42,&#92;&quot;tail_median&#92;&quot;:-92.0510115589468,&#92;&quot;others_median&#92;&quot;:-69.91826112302869},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_p_up_tail&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;validate (Q3 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.551,&#92;&quot;tail_median&#92;&quot;:0.2222222222222222,&#92;&quot;others_median&#92;&quot;:0.1111111111111111},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_mean_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;validate (Q3 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.401,&#92;&quot;tail_median&#92;&quot;:-97.94127261137439,&#92;&quot;others_median&#92;&quot;:-54.38667039071439},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_q90_max_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;validate (Q3 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.528,&#92;&quot;tail_median&#92;&quot;:132.10714533675727,&#92;&quot;others_median&#92;&quot;:129.2495282164896},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_q50_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;validate (Q3 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.499,&#92;&quot;tail_median&#92;&quot;:-69.29280775801905,&#92;&quot;others_median&#92;&quot;:-67.5324104817121},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_p_up_tail&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;validate (Q3 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.511,&#92;&quot;tail_median&#92;&quot;:0.0,&#92;&quot;others_median&#92;&quot;:0.0},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_mean_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;validate (Q3 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.504,&#92;&quot;tail_median&#92;&quot;:-73.05161187137227,&#92;&quot;others_median&#92;&quot;:-67.6798796540578},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_q90_max_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;forward (Oct-Nov 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.539,&#92;&quot;tail_median&#92;&quot;:376.9670697492944,&#92;&quot;others_median&#92;&quot;:402.49696157361404},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_q50_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;forward (Oct-Nov 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.612,&#92;&quot;tail_median&#92;&quot;:-29.08792168521468,&#92;&quot;others_median&#92;&quot;:-54.18501895904649},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_p_up_tail&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;forward (Oct-Nov 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.562,&#92;&quot;tail_median&#92;&quot;:0.2222222222222222,&#92;&quot;others_median&#92;&quot;:0.2222222222222222},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;chronos_mean_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;forward (Oct-Nov 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.711,&#92;&quot;tail_median&#92;&quot;:11.862991871019277,&#92;&quot;others_median&#92;&quot;:-44.11106455773793},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_q90_max_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;forward (Oct-Nov 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.652,&#92;&quot;tail_median&#92;&quot;:141.39986106531555,&#92;&quot;others_median&#92;&quot;:127.97582418753507},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_q50_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;forward (Oct-Nov 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.436,&#92;&quot;tail_median&#92;&quot;:-83.69005643404427,&#92;&quot;others_median&#92;&quot;:-69.22671720847401},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_p_up_tail&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;forward (Oct-Nov 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.558,&#92;&quot;tail_median&#92;&quot;:0.0625,&#92;&quot;others_median&#92;&quot;:0.0},{&#92;&quot;forecast stat&#92;&quot;:&#92;&quot;kronos_mean_end_bps&#92;&quot;,&#92;&quot;period&#92;&quot;:&#92;&quot;forward (Oct-Nov 26)&#92;&quot;,&#92;&quot;coverage_pct&#92;&quot;:100.0,&#92;&quot;auc_vs_tail&#92;&quot;:0.435,&#92;&quot;tail_median&#92;&quot;:-74.1911149239753,&#92;&quot;others_median&#92;&quot;:-64.12236760884156}]&quot;' data-total-rows='24' data-total-columns='6' data-max-columns='50' data-banner-text='&quot;&quot;' data-pagination='false' data-page-size='30' data-field-types='[[&quot;forecast stat&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;period&quot;,[&quot;string&quot;,&quot;str&quot;]],[&quot;coverage_pct&quot;,[&quot;number&quot;,&quot;f64&quot;]],[&quot;auc_vs_tail&quot;,[&quot;number&quot;,&quot;f64&quot;]],[&quot;tail_median&quot;,[&quot;number&quot;,&quot;f64&quot;]],[&quot;others_median&quot;,[&quot;number&quot;,&quot;f64&quot;]]]' data-show-filters='true' data-show-download='true' data-show-search='true' data-show-column-summaries='true' data-show-data-types='true' data-show-page-size-selector='true' data-show-column-explorer='true' data-show-chart-builder='true' data-row-headers='[]' data-hidden-columns='[]' data-has-stable-row-id='false' data-lazy='false' data-preload='false'></marimo-table></marimo-ui-element></div>"
+          }
+        }
+      ],
+      "console": []
+    },
+    {
+      "id": "DnEU",
+      "code_hash": "fbea360b10f540a35eeaa59e8f6109a0",
+      "outputs": [
+        {
+          "type": "data",
+          "data": {
+            "text/markdown": "<span class=\"markdown prose dark:prose-invert contents\"><h2 id=\"heavier-layers-status\">Heavier layers (status)</h2>\n<table>\n<thead>\n<tr>\n<th>layer</th>\n<th>model</th>\n<th>status</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>1</td>\n<td>LightGBM, CatBoost, TabPFN v2 (+ logistic, tree, single-feature rule)</td>\n<td>working</td>\n</tr>\n<tr>\n<td>2</td>\n<td>Chronos-Bolt small, Kronos-small: 20-minute forecast from the pre-entry window</td>\n<td>working; scores cached in <code>data/models/</code></td>\n</tr>\n<tr>\n<td>3</td>\n<td>CLM-8B as an experimental gate (Q8 GGUF or 8-bit MLX)</td>\n<td>optional, not started</td>\n</tr>\n<tr>\n<td>4</td>\n<td>Jev cross-ticker ranking</td>\n<td>needs Jero's Jev key</td>\n</tr>\n</tbody>\n</table>\n<span class=\"paragraph\">Add a model: write a class with <code>fit</code>, <code>predict_proba</code>, <code>explain</code> in <code>src/spike_lab/models/zoo.py</code> and register it in <code>REGISTRY</code>.\nTorch models run in <code>torch_worker.py</code> (separate process).</span></span>"
+          }
+        }
+      ],
+      "console": []
+    }
+  ]
+}

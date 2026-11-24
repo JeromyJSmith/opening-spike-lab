@@ -1,0 +1,38 @@
+{
+  "graph": "spike-short-collab-2026-11-24",
+  "owner": "ojeromyo",
+  "graph_url": "https://infranodus.com/ojeromyo/spike-short-collab-2026-11-24",
+  "edit_url": "https://infranodus.com/ojeromyo/spike-short-collab-2026-11-24/edit",
+  "built_at": "2026-11-24",
+  "corpus": "docs/trading/collab/infranodus_corpus.txt (condensed from call_20261124 notes+transcript, memo_20261114_160448, chris-jones-trading-emails, 2026-11-24 reports)",
+  "stats": {"nodes": 255, "edges": 369, "modularity": 0.66, "clusters": 12, "diversity": "dispersed"},
+  "clusters": [
+    {"name": "Earnings shock", "words": "earnings event spike shock positive strong read analyst", "share_nodes": 15, "influence": 21},
+    {"name": "Minute data", "words": "minute open data versus bar year session retail", "share_nodes": 11, "influence": 16},
+    {"name": "Profit factor", "words": "percent run profit rate atr higher factor day", "share_nodes": 9, "influence": 13},
+    {"name": "Trade losses", "words": "trade basis lost point dangerous losing bby", "share_nodes": 13, "influence": 12},
+    {"name": "Entry modifier", "words": "entry armed pre short yellow red modifier negative", "share_nodes": 10, "influence": 9},
+    {"name": "Sample discipline", "words": "test codex sample rule quarter split subcategory discipline", "share_nodes": 9, "influence": 9},
+    {"name": "Continuation issues", "words": "loser tail continuation winner problem cover rank filing", "share_nodes": 9, "influence": 7},
+    {"name": "Market edge", "words": "edge close dollar stock find capped prior volume", "share_nodes": 11, "influence": 6},
+    {"name": "Broker errors", "words": "interactive broker message error failing order crunch subscription", "share_nodes": 7, "influence": 5},
+    {"name": "Trading strategy", "words": "work shadow trading strategy variability live", "share_nodes": 4, "influence": 1}
+  ],
+  "gaps": [
+    "Trade losses <-> Broker errors",
+    "Entry modifier <-> Broker errors",
+    "Continuation issues <-> Market edge"
+  ],
+  "gateways": ["yellow", "run", "spike", "message", "tail", "interactive", "pre", "session"],
+  "bridging_ideas": [
+    {"title": "Earnings label is both the edge and the tail", "gap": "Earnings shock + Continuation issues via Market edge",
+     "idea": "Split earnings spikes by shock strength; add relative dollar volume at the spike (thin = short covering, heavy = news continuation); use 10-K/8-K keyword flags as a pre-event veto; tag sector read-through so it does not pollute the no-catalyst bucket.",
+     "test": "Earnings event, not strong positive, gap 0.25-1.0 ATR, normal relative volume, short, 20 min cover; run year by year on long history."},
+    {"title": "The deciding bars are the ones the feed drops", "gap": "Minute data + Trade losses via Broker errors",
+     "idea": "Tail losers are decided in the first few 30-second bars, which is when IB throttles and errors. Precompute the shock flag pre-open from Massive so the veto never depends on live IB bars.",
+     "test": "Skip or size down strong positive earnings shocks pre-open; compare PF with and without."},
+    {"title": "Gate the entry, not the exit", "gap": "Profit factor + Entry modifier via Broker errors",
+     "idea": "Run speed (minutes to +5%) as an ATR-scaled gate; red = no entry, yellow = half size, no news = full size; IB never feeds the armed state.",
+     "test": "Does the red/yellow gate plus run-speed gate lift holdout PF from ~0.95 toward 1.5?"}
+  ]
+}

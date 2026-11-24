@@ -1,0 +1,25 @@
+{
+ "graphs": {
+  "news": {
+   "name": "spike-short-news-semantic",
+   "public_url": "https://infranodus.com/ojeromyo/spike-short-news-semantic",
+   "what": "322 Alpaca headlines from the 3 days before each lab trade since 2026-04-29, tagged faded / small loss / continuation loser (tags are graph nodes).",
+   "gaps": [
+    "Investment insights ([[faded]] ai data center management) -> Price adjustments (analyst raise target)",
+    "Share transactions ([[continuation_loser]] result report quarter financial earnings) -> Price adjustments",
+    "Investment insights ([[faded]]) -> Share transactions ([[continuation_loser]])"
+   ]
+  },
+  "gaps": {
+   "name": "spike-short-strategy-gaps",
+   "public_url": "https://infranodus.com/ojeromyo/spike-short-strategy-gaps",
+   "what": "46 statements from the Nov 24 call, Nov 14 memo, Chris's emails, the lab results and the idea board, labelled by source.",
+   "gaps": [
+    "Earnings impact (earnings shock positive strong taxonomy) -> Data / Codex (data mark codex edge small)",
+    "Open strategies (open atr prior pre red yellow) -> Loss analysis (rule lost dangerous bby tgt)",
+    "Market history (minute bar entry protected limit threshold) -> Earnings impact"
+   ]
+  }
+ },
+ "answers": []
+}
