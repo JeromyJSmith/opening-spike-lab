@@ -68,16 +68,11 @@ def hub_nav():
              f'<span style="color:#9aaba4;font:13px system-ui">Notebook {_ORDER.index(_me) + 1} of {len(_ORDER)}</span>'
              f'<a href="{_molab}" target="_blank" rel="noopener" style="{_btn};border-color:#e3a948;color:#e3a948">Open in molab ↗</a>'
              f'<a href="{_next}" target="_top" style="{_btn};border-color:#5cc2a2;color:#5cc2a2">Next notebook →</a></div>')
-    return (NAV,)
-
-
-@app.cell(hide_code=True)
-def _(NAV):
-    mo.vstack([NAV, mo.Html(
+    _mo.vstack([NAV, _mo.Html(
         '<div style="margin:.4rem 0 .2rem;padding:.8rem 1rem;border:2px solid #e3a948;border-radius:12px;background:#1f1a10;'
         'color:#f3e2bf;font:600 16px system-ui;max-width:720px">'
         '<span>This is a slide deck. Use the arrows at the bottom right, or the ← → keys, to step through the slides.</span>'
-        '<span style="font-size:24px"> ↘</span></div>'), mo.md(r"""
+        '<span style="font-size:24px"> ↘</span></div>'), _mo.md(r"""
     # Opening spike short: what the data says
 
     **Real Alpaca 1-minute data, May 2025 to Nov 2026. Paper research only.**
